@@ -1,1 +1,19 @@
+# Dependencies
 node_modules
+
+# Build output
+dist
+.vercel
+
+# AI / Agent metadata & documentation
+.agents
+.impeccable
+DESIGN.md
+PRD-QR-Generator.md
+PRODUCT.md
+skills-lock.json
+
+# Environment & logs
+.env
+.env.local
+*.log
