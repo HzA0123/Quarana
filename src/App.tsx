@@ -103,7 +103,7 @@ export default function App() {
             <span className={`ml-2 text-xs font-semibold px-2 py-0.5 rounded-full border ${
               isDark ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-emerald-100 text-emerald-800 border-emerald-300 font-bold'
             }`}>
-              v2.1 Liquid
+              v3.0 Cosmic 3D
             </span>
           </div>
         </div>
