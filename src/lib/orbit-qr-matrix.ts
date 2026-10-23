@@ -27,15 +27,9 @@ export function extractQRMatrix(options: QROptions, forceScannableECL = false): 
   qr.make();
 
   const moduleCount = qr.getModuleCount();
-  const matrix: boolean[][] = [];
-
-  for (let r = 0; r < moduleCount; r++) {
-    const row: boolean[] = [];
-    for (let c = 0; c < moduleCount; c++) {
-      row.push(qr.isDark(r, c));
-    }
-    matrix.push(row);
-  }
+  const matrix = Array.from({ length: moduleCount }, (_, r) =>
+    Array.from({ length: moduleCount }, (_, c) => qr.isDark(r, c))
+  );
 
   return {
     moduleCount,

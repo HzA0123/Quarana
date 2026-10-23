@@ -6,8 +6,17 @@ import { validateScannability } from '@/lib/scannability-validator';
 import { 
   Download, Copy, Share2, ShieldCheck, AlertTriangle, FileCode, Check, RefreshCw, Eye, QrCode, Sparkles
 } from 'lucide-react';
-import saveAs from 'file-saver';
 import jsPDF from 'jspdf';
+
+// Native download helper (zero external dependencies)
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 // Lazy load Orbit Playground so Three.js orbit module is only loaded on demand
 const OrbitPlayground = lazy(() => import('./orbit-playground'));
@@ -41,7 +50,7 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ options, themeMode }) 
       const exportEngine = createQREngine(options, exportRes, exportRes);
       const blob = await exportEngine.getRawData('png');
       if (blob) {
-        saveAs(blob as Blob, `quarana-qr-${Date.now()}-${exportRes}px.png`);
+        downloadBlob(blob as Blob, `quarana-qr-${Date.now()}-${exportRes}px.png`);
       }
     } catch (err) {
       console.error('PNG export failed', err);
@@ -57,7 +66,7 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ options, themeMode }) 
       const exportEngine = createQREngine(options, 1024, 1024);
       const blob = await exportEngine.getRawData('svg');
       if (blob) {
-        saveAs(blob as Blob, `quarana-qr-${Date.now()}.svg`);
+        downloadBlob(blob as Blob, `quarana-qr-${Date.now()}.svg`);
       }
     } catch (err) {
       console.error('SVG export failed', err);

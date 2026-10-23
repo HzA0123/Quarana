@@ -6,7 +6,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { QROptions } from '@/lib/types';
 import { QRMatrixResult } from '@/lib/orbit-qr-matrix';
 import { SpaceThemeConfig } from './types';
-import saveAs from 'file-saver';
 
 export interface OrbitPlaygroundSceneHandle {
   takeSnapshot: () => void;
@@ -60,13 +59,10 @@ export const OrbitPlaygroundScene = forwardRef<OrbitPlaygroundSceneHandle, Orbit
         if (!rendererRef.current || !sceneRef.current || !cameraRef.current) return;
         rendererRef.current.render(sceneRef.current, cameraRef.current);
         const dataUrl = rendererRef.current.domElement.toDataURL('image/png');
-        // Convert to blob and save
-        fetch(dataUrl)
-          .then((res) => res.blob())
-          .then((blob) => {
-            saveAs(blob, `quarana-3d-orbit-${theme.id}-${Date.now()}.png`);
-          })
-          .catch((err) => console.error('Snapshot failed', err));
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = `quarana-3d-orbit-${theme.id}-${Date.now()}.png`;
+        a.click();
       },
       resetCamera: () => {
         if (!cameraRef.current || !controlsRef.current) return;
